@@ -1,5 +1,7 @@
 package com.clone.reddit.controller;
 
+import com.clone.reddit.DTO.AuthenticationResponse;
+import com.clone.reddit.DTO.LoginRequest;
 import com.clone.reddit.DTO.RegisterRequest;
 import com.clone.reddit.service.AuthService;
 import lombok.AllArgsConstructor;
