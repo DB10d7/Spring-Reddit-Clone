@@ -6,6 +6,7 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
 import org.springframework.security.core.Authentication;
@@ -16,6 +17,9 @@ import javax.crypto.SecretKey;
 import java.io.InputStream;
 import java.io.IOException;
 import java.security.*;
+import java.sql.Date;
+import java.time.Instant;
+import static java.util.Date.from;
 import java.security.KeyStore;
 import java.security.cert.CertificateException;
 
@@ -25,6 +29,10 @@ public class JwtProvider {
 
    // private KeyStore keyStore;
    private Key key;
+
+    @Value("${jwt.expiration.time}")
+    private Long jwtExpirationInMillis;
+
 
     @PostConstruct
     public void init() {
@@ -51,9 +59,9 @@ public class JwtProvider {
         User principal = (User) authentication.getPrincipal();
         return Jwts.builder()
                 .setSubject(principal.getUsername())
-               // .setIssuedAt(from(Instant.now()))
+                .setIssuedAt(from(Instant.now()))
                 .signWith(key)
-               // .setExpiration(Date.from(Instant.now().plusMillis(jwtExpirationInMillis)))
+                .setExpiration(Date.from(Instant.now().plusMillis(jwtExpirationInMillis)))
                 .compact();
     }
   /*  private PrivateKey getPrivateKey() {
@@ -67,6 +75,14 @@ public class JwtProvider {
           parser().setSigningKey(key).parseClaimsJws(jwt);
           return true;
       }
+    public String generateTokenWithUserName(String username) {
+        return Jwts.builder()
+                .setSubject(username)
+                .setIssuedAt(from(Instant.now()))
+                .signWith(key)
+                .setExpiration(Date.from(Instant.now().plusMillis(jwtExpirationInMillis)))
+                .compact();
+    }
 /*
     public boolean validateToken(String jwt) {
         parser().setSigningKey(getPublickey()).parseClaimsJws(jwt);
@@ -97,5 +113,8 @@ public class JwtProvider {
                 .getBody();
         return claims.getSubject();
 
+    }
+    public Long getJwtExpirationInMillis() {
+        return jwtExpirationInMillis;
     }
 }

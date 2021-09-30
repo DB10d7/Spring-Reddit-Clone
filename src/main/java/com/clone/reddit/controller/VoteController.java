@@ -1,6 +1,7 @@
 package com.clone.reddit.controller;
 
 import com.clone.reddit.DTO.VoteDto;
+import com.clone.reddit.service.VoteService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

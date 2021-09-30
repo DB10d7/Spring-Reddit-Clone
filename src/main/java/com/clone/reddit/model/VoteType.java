@@ -2,18 +2,20 @@ package com.clone.reddit.model;
 
 
 
-//import java.util.Arrays;
+import com.clone.reddit.exception.SpringRedditException;
+
+import java.util.Arrays;
 
 public enum VoteType {
     UPVOTE(1), DOWNVOTE(-1),
     ;
 
-  //  private int direction;
+     private int direction;
 
     VoteType(int direction) {
     }
 
-   /* public static VoteType lookup(Integer direction) {
+    public static VoteType lookup(Integer direction) {
         return Arrays.stream(VoteType.values())
                 .filter(value -> value.getDirection().equals(direction))
                 .findAny()
@@ -22,5 +24,5 @@ public enum VoteType {
 
     public Integer getDirection() {
         return direction;
-    }*/
+    }
 }
